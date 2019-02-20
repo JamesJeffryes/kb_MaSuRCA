@@ -1,27 +1,20 @@
 # -*- coding: utf-8 -*-
-import unittest
 import os  # noqa: F401
-import json  # noqa: F401
-import time
 import shutil
-
+import time
+import unittest
+from configparser import ConfigParser  # py3
 from os import environ
-try:
-    from ConfigParser import ConfigParser  # py2
-except:
-    from configparser import ConfigParser  # py3
-
 from pprint import pprint, pformat  # noqa: F401
 
-from biokbase.workspace.client import Workspace as workspaceService
 from MaSuRCA.MaSuRCAImpl import kb_MaSuRCA
 from MaSuRCA.MaSuRCAServer import MethodContext
 from MaSuRCA.authclient import KBaseAuth as _KBaseAuth
-from installed_clients.ReadsUtilsClient import ReadsUtils
-from installed_clients.AssemblyUtilClient import AssemblyUtil
-
 from MaSuRCA.core.masurca_assembler import MaSuRCA_Assembler
 from MaSuRCA.core.masurca_utils import masurca_utils
+from installed_clients.AssemblyUtilClient import AssemblyUtil
+from installed_clients.ReadsUtilsClient import ReadsUtils
+from installed_clients.WorkspaceClient import Workspace as workspaceService
 
 
 class MaSuRCATest(unittest.TestCase):
@@ -118,8 +111,7 @@ class MaSuRCATest(unittest.TestCase):
              'workspace_name': self.getWsName(),
              'assembly_name': assembly_nm.split('.')[0]})
         # self.__class__.assembly_ref = assembly_ref
-        print('Loaded Assembly:{} with ref of{}.'.format(
-            assembly_nm, assembly_ref))
+        print(f'Loaded Assembly:{assembly_nm} with ref of{assembly_ref}.')
         return assembly_ref
 
     def loadSEReads(self, reads_file_path):

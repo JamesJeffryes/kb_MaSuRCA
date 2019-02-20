@@ -9,10 +9,10 @@ class Program_Runner:
         self.executableName = cmd
 
     def run(self, command, cwd_dir=None):
-        '''
+        """
         options is an array of command-line parameters passed
         to the RQCFilter App
-        '''
+        """
         cmmd = command
         if not cwd_dir:
             cwd_dir = self.work_dir

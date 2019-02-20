@@ -1,22 +1,23 @@
 # -*- coding: utf-8 -*-
+import codecs
+import copy
+import errno
+import os
 import re
 import time
-import os
-import errno
-import zipfile
-import codecs
 import uuid
-import copy
-import numpy as np
+import zipfile
 from pprint import pprint
 
+import numpy as np
+
 from MaSuRCA.core.Program_Runner import Program_Runner
-from installed_clients.WorkspaceClient import Workspace
-from installed_clients.KBaseReportClient import KBaseReport
 from installed_clients.AssemblyUtilClient import AssemblyUtil
-from installed_clients.kb_quastClient import kb_quast
+from installed_clients.KBaseReportClient import KBaseReport
 from installed_clients.ReadsUtilsClient import ReadsUtils
+from installed_clients.WorkspaceClient import Workspace
 from installed_clients.baseclient import ServerError
+from installed_clients.kb_quastClient import kb_quast
 
 
 def log(message, prefix_newline=False):
@@ -272,7 +273,7 @@ class masurca_utils:
                 i = 0
                 for rds in rds_data:
                     i += 1
-                    if ('pe_id' in pe_lib and pe_lib['pe_id'] == rds['reads_ref']):
+                    if 'pe_id' in pe_lib and pe_lib['pe_id'] == rds['reads_ref']:
                         if pe_lib.get('pe_prefix', None):
                             rds['pe_prefix'] = pe_lib['pe_prefix'][0]
                         else:
@@ -327,7 +328,7 @@ class masurca_utils:
                 i = 0
                 for rds in rds_data:
                     i += 1
-                    if ('jp_id' in jp_lib and jp_lib['jp_id'] == rds['reads_ref']):
+                    if 'jp_id' in jp_lib and jp_lib['jp_id'] == rds['reads_ref']:
                         if jp_lib.get('jp_prefix', None):
                             rds['jp_prefix'] = jp_lib['jp_prefix'][0]
                         else:
@@ -475,7 +476,7 @@ class masurca_utils:
             # Pattern for replacing white space
             pattern = re.compile(r'\s+')
             for current_line in input_file_handle:
-                if (current_line[0] == '>'):
+                if current_line[0] == '>':
                     # found a header line
                     # Wrap up previous fasta sequence
                     if not first_header_found:
@@ -630,7 +631,7 @@ class masurca_utils:
             raise ValueError('Invalid workspace object name: {}.'.format(
                              params[self.PARAM_IN_CS_NAME]))
 
-        if ('dna_source' in params):
+        if 'dna_source' in params:
             dna_src = params.get('dna_source')
             if dna_src == 'bacteria':
                 params['limit_jump_coverage'] = 60
@@ -654,9 +655,9 @@ class masurca_utils:
         jp_reads_data = []
         if params.get(self.PARAM_IN_JUMP_LIBS, None):
             jp_reads_data = self._get_jpreads_info(params)
-            if ('jp_mean' not in params or type(params['jp_mean']) != int):
+            if 'jp_mean' not in params or type(params['jp_mean']) != int:
                 params['jp_mean'] = 3600
-            if ('jp_stdev' not in params or type(params['jp_stdev']) != int):
+            if 'jp_stdev' not in params or type(params['jp_stdev']) != int:
                 params['jp_stdev'] = 200
 
         # STEP 2.2: PACBIO reads must be in a single FASTA file and supplied as PACBIO=reads.fa;
